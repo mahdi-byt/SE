@@ -1,7 +1,58 @@
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import java.io.File;
+import java.io.IOException;
+
 class Admin extends User {
     private String adminLevel;
 
     public Admin(String username, String password){
         super(username, password);
+    }
+
+    private static final String USERS_FILE_PATH = "src/main/resources/users.json";
+
+    public boolean createEmployee(String username, String password) {
+        ObjectMapper mapper = new ObjectMapper();
+        File file = new File(USERS_FILE_PATH);
+
+        try {
+            ObjectNode root;
+            ArrayNode usersArray;
+
+            if (file.exists()) {
+                root = (ObjectNode) mapper.readTree(file);
+                usersArray = (ArrayNode) root.get("users");
+            } else {
+                root = mapper.createObjectNode();
+                usersArray = mapper.createArrayNode();
+                root.set("users", usersArray);
+            }
+
+            for (int i = 0; i < usersArray.size(); i++) {
+                if (usersArray.get(i).get("username").asText().equals(username)) {
+                    System.out.println("Username already exists!");
+                    return false;
+                }
+            }
+
+            ObjectNode newUser = mapper.createObjectNode();
+            newUser.put("username", username);
+            newUser.put("password", password);
+            newUser.put("role", "employee");
+
+            usersArray.add(newUser);
+
+            mapper.writerWithDefaultPrettyPrinter().writeValue(file, root);
+
+            System.out.println("Employee created successfully!");
+            return true;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

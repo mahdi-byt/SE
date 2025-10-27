@@ -1,5 +1,7 @@
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world");
+        Admin guest = new Admin("John Doe", "1234567890");
+        guest.createEmployee("test", "new");
     }
 }
