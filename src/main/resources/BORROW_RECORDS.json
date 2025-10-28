@@ -1,0 +1,20 @@
+{
+  "borrowRecords": [
+    {
+      "username": "ali123",
+      "isbn": "9780451524935",
+      "issuedBy": "sara457",
+      "receivedBy": null,
+      "issueDate": "2025-10-20",
+      "returnDate": null
+    },
+    {
+      "username": "maryam88",
+      "isbn": "9780316769488",
+      "issuedBy": "reza001",
+      "receivedBy": "sara456",
+      "issueDate": "2025-09-10",
+      "returnDate": "2025-09-25"
+    }
+  ]
+}

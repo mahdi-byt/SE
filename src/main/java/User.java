@@ -16,8 +16,9 @@ public class User {
 
     public static User login(String username, String password) {
         ObjectMapper mapper = new ObjectMapper();
+        File file = new File("src/main/resources/users.json");
+
         try {
-            File file = new File("src/main/resources/users.json");
             JsonNode root = mapper.readTree(file);
             JsonNode users = root.get("users");
 
@@ -26,19 +27,27 @@ public class User {
                 String p = userNode.get("password").asText();
                 String role = userNode.get("role").asText();
 
+                // بررسی اعتبار ورود
                 if (username.equals(u) && password.equals(p)) {
                     switch (role.toLowerCase()) {
                         case "student":
-                            return new Student(u, p);
+                            boolean isActive = userNode.has("isActive") && userNode.get("isActive").asBoolean();
+                            return new Student(u, p, isActive);
+
                         case "admin":
                             return new Admin(u, p);
+
                         case "employee":
                             return new Employee(u, p);
+
                         default:
+                            System.out.println("Unknown role: " + role);
                             return null;
                     }
                 }
             }
+
+            System.out.println("Invalid username or password.");
 
         } catch (IOException e) {
             e.printStackTrace();
