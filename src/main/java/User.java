@@ -27,7 +27,6 @@ public class User {
                 String p = userNode.get("password").asText();
                 String role = userNode.get("role").asText();
 
-                // بررسی اعتبار ورود
                 if (username.equals(u) && password.equals(p)) {
                     switch (role.toLowerCase()) {
                         case "student":
@@ -55,6 +54,8 @@ public class User {
 
         return null;
     }
+
+    public void userMenu(){}
 
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }

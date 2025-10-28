@@ -1,28 +1,24 @@
 {
-  "books": [
-    {
-      "title": "The Catcher in the Rye",
-      "author": "J.D. Salinger",
-      "year": 1951,
-      "isbn": "9780316769488",
-      "registeredBy": "sara457",
-      "isAvailable": true
-    },
-    {
-      "title": "1984",
-      "author": "George Orwell",
-      "year": 1949,
-      "isbn": "9780451524935",
-      "registeredBy": "reza001",
-      "isAvailable": false
-    },
-    {
-      "title": "Pride and Prejudice",
-      "author": "Jane Austen",
-      "year": 1813,
-      "isbn": "9781503290563",
-      "registeredBy": "sara456",
-      "isAvailable": true
-    }
-  ]
+  "books" : [ {
+    "title" : "The Catcher in the Rye",
+    "author" : "J.D. Salinger",
+    "year" : 1951,
+    "isbn" : "9780316769488",
+    "registeredBy" : "sara457",
+    "isAvailable" : false
+  }, {
+    "title" : "1984",
+    "author" : "George Orwell",
+    "year" : 1949,
+    "isbn" : "9780451524935",
+    "registeredBy" : "reza001",
+    "isAvailable" : true
+  }, {
+    "title" : "Pride and Prejudice",
+    "author" : "Jane Austen",
+    "year" : 1813,
+    "isbn" : "9781503290563",
+    "registeredBy" : "sara456",
+    "isAvailable" : true
+  } ]
 }
