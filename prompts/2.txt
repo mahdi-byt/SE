@@ -1,0 +1,7 @@
+deepseek
+برای کلاس User با استفاده از junit یک unit test بنویس
+برای کلاس Admin با استفاده از junit یک unit test بنویس
+برای کلاس Employee با استفاده از junit یک unit test بنویس
+برای کلاس Student با استفاده از junit یک unit test بنویس
+برای کلاس Book با استفاده از junit یک unit test بنویس
+برای کلاس BorrowRecord با استفاده از junit یک unit test بنویس
