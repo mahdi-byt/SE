@@ -17,6 +17,18 @@ class Student extends User {
         this.isActive = isActive;
     }
 
+    private static String USERS_FILE_PATH = "src/main/resources/users.json";
+    private static String BOOKS_FILE_PATH = "src/main/resources/books.json";
+    private static String REQUESTS_FILE_PATH = "src/main/resources/book_requests.json";
+    private static final ObjectMapper mapper = new ObjectMapper();
+
+    public static void setUsersFilePath(String path) {
+        USERS_FILE_PATH = path;
+    }
+
+    public static void setRequestFilePath(String path) {
+        REQUESTS_FILE_PATH = path;
+    }
     @Override
     public void userMenu() {
         Scanner scanner = new Scanner(System.in);
@@ -85,11 +97,6 @@ class Student extends User {
         }
     }
 
-    private static final String USERS_FILE_PATH = "src/main/resources/users.json";
-    private static final String BOOKS_FILE_PATH = "src/main/resources/books.json";
-    private static final String REQUESTS_FILE_PATH = "src/main/resources/book_requests.json";
-    private static final ObjectMapper mapper = new ObjectMapper();
-
     public static int countStudents() {
         ObjectMapper mapper = new ObjectMapper();
         File file = new File(USERS_FILE_PATH);
@@ -105,7 +112,8 @@ class Student extends User {
 
             int count = 0;
             for (int i = 0; i < usersArray.size(); i++) {
-                if (usersArray.get(i).get("role").asText().equals("student")) {
+                JsonNode userNode = usersArray.get(i);
+                if (userNode.has("role") && userNode.get("role").asText().equals("student")) {
                     count++;
                 }
             }
@@ -114,7 +122,7 @@ class Student extends User {
             return count;
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error counting students: " + e.getMessage());
             return 0;
         }
     }
@@ -123,27 +131,33 @@ class Student extends User {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter student's username: ");
         String studentUsername = scanner.nextLine();
+        toggleStudentStatus(studentUsername);
+    }
 
+    public static void toggleStudentStatus(String studentUsername) {
         try {
             File usersFile = new File(USERS_FILE_PATH);
             if (!usersFile.exists()) {
-                System.out.println("❌ Users.User file not found.");
+                System.out.println("❌ User file not found.");
                 return;
             }
 
+            ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(usersFile);
             ArrayNode usersArray = (ArrayNode) root.get("users");
 
             boolean updated = false;
             for (JsonNode userNode : usersArray) {
-                if (userNode.get("username").asText().equalsIgnoreCase(studentUsername)
-                        && userNode.get("role").asText().equalsIgnoreCase("student")) {
+                if (userNode.has("username") &&
+                        userNode.has("role") &&
+                        userNode.get("username").asText().equalsIgnoreCase(studentUsername) &&
+                        userNode.get("role").asText().equalsIgnoreCase("student")) {
 
                     boolean isActive = userNode.has("isActive") && userNode.get("isActive").asBoolean();
                     ((ObjectNode) userNode).put("isActive", !isActive);
                     updated = true;
 
-                    System.out.println("✅ Users.Student " + studentUsername + " is now " + (!isActive ? "active" : "inactive") + ".");
+                    System.out.println("✅ Student " + studentUsername + " is now " + (!isActive ? "active" : "inactive") + ".");
                     break;
                 }
             }
@@ -151,12 +165,19 @@ class Student extends User {
             if (updated) {
                 mapper.writerWithDefaultPrettyPrinter().writeValue(usersFile, root);
             } else {
-                System.out.println("❌ Users.Student not found.");
+                System.out.println("❌ Student not found.");
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("❌ Error toggling student status: " + e.getMessage());
         }
+    }
+
+    public static void toggleStudentStatusWithInput() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter student's username: ");
+        String studentUsername = scanner.nextLine();
+        toggleStudentStatus(studentUsername);
     }
 
     public void requestBook(String isbn, String suggestedDeliveryDate) {
@@ -193,10 +214,10 @@ class Student extends User {
 
             mapper.writerWithDefaultPrettyPrinter().writeValue(requestFile, root);
 
-            System.out.println("✅ Books.Book request registered successfully for ISBN: " + isbn);
+            System.out.println("✅ Book request registered successfully for ISBN: " + isbn);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("❌ Error requesting book: " + e.getMessage());
         }
     }
 }

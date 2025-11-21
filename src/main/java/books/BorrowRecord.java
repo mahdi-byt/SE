@@ -11,11 +11,15 @@ import java.time.format.DateTimeFormatter;
 
 public class BorrowRecord {
 
-    private static final String BOOKS_FILE_PATH = "src/main/resources/books.json";
-    private static final String BORROW_FILE_PATH = "src/main/resources/borrow_records.json";
-    private static final String USERS_FILE_PATH = "src/main/resources/users.json";
+    private static String BOOKS_FILE_PATH = "src/main/resources/books.json";
+    private static String BORROW_FILE_PATH = "src/main/resources/borrow_records.json";
+    private static String USERS_FILE_PATH = "src/main/resources/users.json";
 
     private static final ObjectMapper mapper = new ObjectMapper();
+
+    public static void setBorrowFilePath(String path) {
+        BORROW_FILE_PATH = path;
+    }
 
     public static int getTotalBorrowedBooks() {
         try {

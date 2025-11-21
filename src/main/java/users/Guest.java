@@ -14,9 +14,18 @@ public class Guest extends User {
     public Guest(String username, String password) {
         super(username, password);
     }
-    private static final String USERS_FILE_PATH = "src/main/resources/users.json";
-    private static final String BORROW_FILE_PATH = "src/main/resources/borrow_records.json";
+    private static String USERS_FILE_PATH = "src/main/resources/users.json";
+    private static String BORROW_FILE_PATH = "src/main/resources/borrow_records.json";
     private static final ObjectMapper mapper = new ObjectMapper();
+
+    public static void setUsersFilePath(String path) {
+        USERS_FILE_PATH = path;
+    }
+
+    public static void setBorrowFilePath(String path) {
+        BORROW_FILE_PATH = path;
+    }
+
 
     @Override
     public void userMenu() {
@@ -129,6 +138,10 @@ public class Guest extends User {
             if (file.exists()) {
                 root = (ObjectNode) mapper.readTree(file);
                 usersArray = (ArrayNode) root.get("users");
+                if (usersArray == null) {
+                    usersArray = mapper.createArrayNode();
+                    root.set("users", usersArray);
+                }
             } else {
                 root = mapper.createObjectNode();
                 usersArray = mapper.createArrayNode();
@@ -151,11 +164,11 @@ public class Guest extends User {
 
             mapper.writerWithDefaultPrettyPrinter().writeValue(file, root);
 
-            System.out.println("Users.User registered successfully!");
+            System.out.println("User registered successfully!");
             return true;
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error registering user: " + e.getMessage());
             return false;
         }
     }
@@ -171,12 +184,14 @@ public class Guest extends User {
 
             int count = 0;
             for (JsonNode record : borrowArray) {
-                if (record.get("returnDate").isNull()) count++;
+                if (record.has("returnDate") && record.get("returnDate").isNull()) {
+                    count++;
+                }
             }
             return count;
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error counting borrowed books: " + e.getMessage());
             return 0;
         }
     }

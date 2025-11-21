@@ -16,12 +16,36 @@ class Employee extends User {
         super(username, password);
     }
 
-    private static final String USERS_FILE_PATH = "src/main/resources/users.json";
-    private static final String BOOKS_FILE_PATH = "src/main/resources/books.json";
-    private static final String BORROW_FILE_PATH = "src/main/resources/borrow_records.json";
-    private static final String REQUESTS_FILE_PATH = "src/main/resources/book_requests.json";
+    private static String USERS_FILE_PATH = "src/main/resources/users.json";
+    private static String BOOKS_FILE_PATH = "src/main/resources/books.json";
+    private static String BORROW_FILE_PATH = "src/main/resources/borrow_records.json";
+    private static String REQUESTS_FILE_PATH = "src/main/resources/book_requests.json";
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final Scanner scanner = new Scanner(System.in);
+
+    public static void setUsersFilePath(String path) {
+        USERS_FILE_PATH = path;
+    }
+
+    public static void setBooksFilePath(String path) {
+        BOOKS_FILE_PATH = path;
+    }
+
+    public static void setBorrowFilePath(String path) {
+        BORROW_FILE_PATH = path;
+    }
+
+    public static void setRequestsFilePath(String path) {
+        REQUESTS_FILE_PATH = path;
+    }
+
+    public int getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
+    }
 
     @Override
     public void userMenu() {
@@ -51,7 +75,7 @@ class Employee extends User {
 
             switch (choice) {
                 case 1:
-                    this.changePassword();
+                    this.changePasswordWithInput();
                     break;
 
                 case 2:
@@ -149,14 +173,14 @@ class Employee extends User {
         }
     }
     public void changePassword() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter new password: ");
-        String newPassword = scanner.nextLine();
+        changePassword("newPassword123");
+    }
 
+    public void changePassword(String newPassword) {
         try {
             File usersFile = new File(USERS_FILE_PATH);
             if (!usersFile.exists()) {
-                System.out.println("❌ Users.User file not found.");
+                System.out.println("❌ User file not found.");
                 return;
             }
 
@@ -179,12 +203,19 @@ class Employee extends User {
                 mapper.writerWithDefaultPrettyPrinter().writeValue(usersFile, root);
                 System.out.println("✅ Password changed successfully.");
             } else {
-                System.out.println("❌ Users.Employee record not found.");
+                System.out.println("❌ Employee record not found.");
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("❌ Error changing password: " + e.getMessage());
         }
+    }
+
+    public void changePasswordWithInput() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter new password: ");
+        String newPassword = scanner.nextLine();
+        changePassword(newPassword);
     }
 
     public void addBook(String title, String author, int year, String isbn) {
@@ -335,7 +366,7 @@ class Employee extends User {
         try {
             File booksFile = new File(BOOKS_FILE_PATH);
             if (!booksFile.exists()) {
-                System.out.println("❌ Books.Book file not found.");
+                System.out.println("❌ Book file not found.");
                 return;
             }
 
@@ -360,22 +391,22 @@ class Employee extends User {
             }
 
             if (!found) {
-                System.out.println("❌ Books.Book with ISBN " + isbn + " not found.");
+                System.out.println("❌ Book with ISBN " + isbn + " not found.");
                 return;
             }
 
             mapper.writerWithDefaultPrettyPrinter().writeValue(booksFile, root);
-            System.out.println("✅ Books.Book with ISBN " + isbn + " has been updated successfully.");
+            System.out.println("✅ Book with ISBN " + isbn + " has been updated successfully.");
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("❌ Error updating book: " + e.getMessage());
         }
     }
 
     public void receiveBookFromStudent(String studentUsername, String isbn) {
         try {
             File borrowFile = new File(BORROW_FILE_PATH);
-            File booksFile = new File("src/main/resources/books.json");
+            File booksFile = new File(BOOKS_FILE_PATH);
 
             if (!borrowFile.exists() || !booksFile.exists()) {
                 System.out.println("Required data files not found.");
@@ -417,14 +448,11 @@ class Employee extends User {
             }
 
             mapper.writerWithDefaultPrettyPrinter().writeValue(booksFile, booksRoot);
-            System.out.println("✅ Books.Book received and record updated successfully.");
+            System.out.println("✅ Book received and record updated successfully.");
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("❌ Error receiving book: " + e.getMessage());
         }
     }
-
-
-
 
 }

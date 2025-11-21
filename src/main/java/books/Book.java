@@ -27,6 +27,10 @@ public class Book {
         this.isAvailable = isAvailable;
     }
 
+    public static void setBooksFilePath(String path) {
+        BOOKS_FILE_PATH = path;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -59,7 +63,7 @@ public class Book {
         this.isbn = isbn;
     }
 
-    private static final String BOOKS_FILE_PATH = "src/main/resources/books.json";
+    private static String BOOKS_FILE_PATH = "src/main/resources/books.json";
     public static int countBooks() {
         ObjectMapper mapper = new ObjectMapper();
         File file = new File(BOOKS_FILE_PATH);
@@ -243,9 +247,6 @@ public class Book {
             e.printStackTrace();
         }
     }
-
-
-
 
 
 }

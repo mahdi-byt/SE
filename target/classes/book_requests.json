@@ -1,3 +1,48 @@
 {
-  "bookRequests" : [ ]
+  "bookRequests" : [ {
+    "username" : "john_doe",
+    "isbn" : "1234567890",
+    "requestDate" : "2025-11-21",
+    "suggestedDeliveryDate" : "2025-11-28"
+  }, {
+    "username" : "john_doe",
+    "isbn" : "1234567890",
+    "requestDate" : "2025-11-21",
+    "suggestedDeliveryDate" : "2025-11-28"
+  }, {
+    "username" : "john_doe",
+    "isbn" : "1234567890",
+    "requestDate" : "2025-11-21",
+    "suggestedDeliveryDate" : "2025-11-28"
+  }, {
+    "username" : "john_doe",
+    "isbn" : "1234567890",
+    "requestDate" : "2025-11-21",
+    "suggestedDeliveryDate" : "2025-11-28"
+  }, {
+    "username" : "john_doe",
+    "isbn" : "1234567890",
+    "requestDate" : "2025-11-21",
+    "suggestedDeliveryDate" : "2025-11-28"
+  }, {
+    "username" : "john_doe",
+    "isbn" : "1234567890",
+    "requestDate" : "2025-11-21",
+    "suggestedDeliveryDate" : "2025-11-28"
+  }, {
+    "username" : "john_doe",
+    "isbn" : "1234567890",
+    "requestDate" : "2025-11-21",
+    "suggestedDeliveryDate" : "2025-11-28"
+  }, {
+    "username" : "john_doe",
+    "isbn" : "1234567890",
+    "requestDate" : "2025-11-21",
+    "suggestedDeliveryDate" : "2025-11-28"
+  }, {
+    "username" : "activestudent",
+    "isbn" : "ISBN123",
+    "requestDate" : "2025-11-21",
+    "suggestedDeliveryDate" : "2025-11-28"
+  } ]
 }

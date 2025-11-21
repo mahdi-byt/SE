@@ -21,12 +21,28 @@ class Admin extends User {
         super(username, password);
     }
 
-    private static final String USERS_FILE_PATH = "src/main/resources/users.json";
-    private static final String BOOKS_FILE_PATH = "src/main/resources/books.json";
-    private static final String BORROW_FILE_PATH = "src/main/resources/borrow_records.json";
-    private static final String REQUESTS_FILE_PATH = "src/main/resources/book_requests.json";
+    private static String USERS_FILE_PATH = "src/main/resources/users.json";
+    private static String BOOKS_FILE_PATH = "src/main/resources/books.json";
+    private static String BORROW_FILE_PATH = "src/main/resources/borrow_records.json";
+    private static String REQUESTS_FILE_PATH = "src/main/resources/book_requests.json";
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final Scanner scanner = new Scanner(System.in);
+
+    public static void setUsersFilePath(String path) {
+        USERS_FILE_PATH = path;
+    }
+
+    public static void setBooksFilePath(String path) {
+        BOOKS_FILE_PATH = path;
+    }
+
+    public static void setBorrowFilePath(String path) {
+        BORROW_FILE_PATH = path;
+    }
+
+    public static void setRequestsFilePath(String path) {
+        REQUESTS_FILE_PATH = path;
+    }
 
     public void userMenu() {
         int choice = -1;
@@ -137,10 +153,11 @@ class Admin extends User {
             File booksFile = new File(BOOKS_FILE_PATH);
             if (booksFile.exists()) {
                 JsonNode booksRoot = mapper.readTree(booksFile);
-                ArrayNode booksArray = (ArrayNode) booksRoot.get("books");
-                if (booksArray != null) {
+                JsonNode booksArray = booksRoot.get("books");
+                if (booksArray != null && booksArray.isArray()) {
                     for (JsonNode book : booksArray) {
-                        if (book.has("registeredBy") &&
+                        if (book != null &&
+                                book.has("registeredBy") &&
                                 book.get("registeredBy").asText().equalsIgnoreCase(employeeUsername)) {
                             booksRegistered++;
                         }
@@ -151,23 +168,25 @@ class Admin extends User {
             File borrowFile = new File(BORROW_FILE_PATH);
             if (borrowFile.exists()) {
                 JsonNode borrowRoot = mapper.readTree(borrowFile);
-                ArrayNode borrowArray = (ArrayNode) borrowRoot.get("borrowRecords");
-                if (borrowArray != null) {
+                JsonNode borrowArray = borrowRoot.get("borrowRecords");
+                if (borrowArray != null && borrowArray.isArray()) {
                     for (JsonNode record : borrowArray) {
-                        if (record.has("issuedBy") &&
-                                record.get("issuedBy").asText().equalsIgnoreCase(employeeUsername)) {
-                            booksLent++;
-                        }
-                        if (record.has("receivedBy") &&
-                                !record.get("receivedBy").isNull() &&
-                                record.get("receivedBy").asText().equalsIgnoreCase(employeeUsername)) {
-                            booksReceived++;
+                        if (record != null) {
+                            if (record.has("issuedBy") &&
+                                    record.get("issuedBy").asText().equalsIgnoreCase(employeeUsername)) {
+                                booksLent++;
+                            }
+                            if (record.has("receivedBy") &&
+                                    !record.get("receivedBy").isNull() &&
+                                    record.get("receivedBy").asText().equalsIgnoreCase(employeeUsername)) {
+                                booksReceived++;
+                            }
                         }
                     }
                 }
             }
 
-            System.out.println("📊 Performance Report for Users.Employee: " + employeeUsername);
+            System.out.println("📊 Performance Report for Employee: " + employeeUsername);
             System.out.println("------------------------------------");
             System.out.println("📘 Books Registered : " + booksRegistered);
             System.out.println("📗 Books Lent       : " + booksLent);
@@ -175,7 +194,9 @@ class Admin extends User {
             System.out.println("------------------------------------");
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("❌ Error reading performance data: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("❌ Unexpected error in performance report: " + e.getMessage());
         }
     }
 
@@ -189,22 +210,33 @@ class Admin extends User {
             File requestsFile = new File(REQUESTS_FILE_PATH);
             if (requestsFile.exists()) {
                 JsonNode reqRoot = mapper.readTree(requestsFile);
-                ArrayNode reqArray = (ArrayNode) reqRoot.get("bookRequests");
-                if (reqArray != null) totalRequests = reqArray.size();
+                JsonNode reqArray = reqRoot.get("bookRequests");
+                if (reqArray != null && reqArray.isArray()) {
+                    totalRequests = reqArray.size();
+                }
             }
 
             File borrowFile = new File(BORROW_FILE_PATH);
             if (borrowFile.exists()) {
                 JsonNode borrowRoot = mapper.readTree(borrowFile);
-                ArrayNode borrowArray = (ArrayNode) borrowRoot.get("borrowRecords");
-                if (borrowArray != null) {
+                JsonNode borrowArray = borrowRoot.get("borrowRecords");
+                if (borrowArray != null && borrowArray.isArray()) {
                     totalBorrows = borrowArray.size();
                     for (JsonNode record : borrowArray) {
-                        if (!record.get("returnDate").isNull()) {
-                            LocalDate issue = LocalDate.parse(record.get("issueDate").asText());
-                            LocalDate returned = LocalDate.parse(record.get("returnDate").asText());
-                            totalDays += ChronoUnit.DAYS.between(issue, returned);
-                            totalCompleted++;
+                        if (record != null &&
+                                record.has("returnDate") &&
+                                record.has("issueDate") &&
+                                !record.get("returnDate").isNull() &&
+                                !record.get("issueDate").isNull()) {
+
+                            try {
+                                LocalDate issue = LocalDate.parse(record.get("issueDate").asText());
+                                LocalDate returned = LocalDate.parse(record.get("returnDate").asText());
+                                totalDays += ChronoUnit.DAYS.between(issue, returned);
+                                totalCompleted++;
+                            } catch (Exception e) {
+                                System.out.println("⚠️ Warning: Invalid date format in borrow record");
+                            }
                         }
                     }
                 }
@@ -220,7 +252,9 @@ class Admin extends User {
             System.out.println("-----------------------------");
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("❌ Error reading statistics files: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("❌ Unexpected error in statistics: " + e.getMessage());
         }
     }
 
@@ -233,8 +267,8 @@ class Admin extends User {
             }
 
             JsonNode root = mapper.readTree(borrowFile);
-            ArrayNode borrowArray = (ArrayNode) root.get("borrowRecords");
-            if (borrowArray == null || borrowArray.isEmpty()) {
+            JsonNode borrowArray = root.get("borrowRecords");
+            if (borrowArray == null || !borrowArray.isArray() || borrowArray.isEmpty()) {
                 System.out.println("No borrow records available.");
                 return;
             }
@@ -243,15 +277,24 @@ class Admin extends User {
             DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
 
             for (JsonNode record : borrowArray) {
-                if (!record.get("returnDate").isNull() && !record.get("dueDate").isNull()) {
-                    LocalDate dueDate = LocalDate.parse(record.get("dueDate").asText(), formatter);
-                    LocalDate returnDate = LocalDate.parse(record.get("returnDate").asText(), formatter);
+                if (record != null &&
+                        record.has("returnDate") &&
+                        record.has("dueDate") &&
+                        record.has("username") &&
+                        !record.get("returnDate").isNull() &&
+                        !record.get("dueDate").isNull()) {
 
-                    if (returnDate.isAfter(dueDate)) {
-                        long delayDays = ChronoUnit.DAYS.between(dueDate, returnDate);
-                        String username = record.get("username").asText();
+                    try {
+                        LocalDate dueDate = LocalDate.parse(record.get("dueDate").asText(), formatter);
+                        LocalDate returnDate = LocalDate.parse(record.get("returnDate").asText(), formatter);
 
-                        delayMap.put(username, delayMap.getOrDefault(username, 0L) + delayDays);
+                        if (returnDate.isAfter(dueDate)) {
+                            long delayDays = ChronoUnit.DAYS.between(dueDate, returnDate);
+                            String username = record.get("username").asText();
+                            delayMap.put(username, delayMap.getOrDefault(username, 0L) + delayDays);
+                        }
+                    } catch (Exception e) {
+                        System.out.println("⚠️ Warning: Invalid date format in record");
                     }
                 }
             }
@@ -275,7 +318,9 @@ class Admin extends User {
             System.out.println("--------------------------------------");
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("❌ Error reading borrow records: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("❌ Unexpected error in late students report: " + e.getMessage());
         }
     }
 }

@@ -3,7 +3,7 @@
     "username" : "ali123",
     "password" : "s23456",
     "role" : "student",
-    "isActive": true
+    "isActive" : true
   }, {
     "username" : "sara456",
     "password" : "$2b$12$7q3h2lX1S4gD9sQ==",
@@ -16,5 +16,41 @@
     "username" : "test",
     "password" : "new",
     "role" : "employee"
+  }, {
+    "username" : "Mahdi",
+    "password" : "123",
+    "role" : "student"
+  }, {
+    "username" : "duplicateUser",
+    "password" : "9999",
+    "role" : "employee"
+  }, {
+    "username" : "employeeTest",
+    "password" : "1234",
+    "role" : "employee"
+  }, {
+    "username" : "newEmployee",
+    "password" : "newPass123",
+    "role" : "employee"
+  }, {
+    "username" : "firstEmployee",
+    "password" : "firstPass123",
+    "role" : "employee"
+  }, {
+    "username" : "newemp",
+    "password" : "emppass",
+    "role" : "employee"
+  }, {
+    "username" : "existing",
+    "password" : "newpass",
+    "role" : "employee"
+  }, {
+    "username" : "newuser",
+    "password" : "pass123",
+    "role" : "student"
+  }, {
+    "username" : "existinguser",
+    "password" : "newpass",
+    "role" : "student"
   } ]
 }

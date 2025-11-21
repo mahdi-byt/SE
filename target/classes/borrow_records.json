@@ -3,9 +3,9 @@
     "username" : "ali123",
     "isbn" : "9780316769488",
     "issuedBy" : "test",
-    "receivedBy" : null,
+    "receivedBy" : "test",
     "issueDate" : "2025-10-28",
     "dueDate" : "2025-11-1",
-    "returnDate" : null
+    "returnDate" : "2025-11-19"
   } ]
 }

@@ -11,6 +11,7 @@ public class User {
 
     private String username;
     private String password;
+    public static String USERS_FILE_PATH = "src/main/resources/users.json";
 
     public User(String username, String password) {
         this.username = username;
@@ -19,7 +20,7 @@ public class User {
 
     public static User login(String username, String password) {
         ObjectMapper mapper = new ObjectMapper();
-        File file = new File("src/main/resources/users.json");
+        File file = new File(USERS_FILE_PATH);
 
         try {
             JsonNode root = mapper.readTree(file);
