@@ -1,9 +1,11 @@
+package users;
+import books.*;
+
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
 
 import java.io.File;
 import java.util.Scanner;
-import java.util.ArrayList;
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -21,11 +23,11 @@ class Student extends User {
         int choice = -1;
 
         while (choice != 0) {
-            System.out.println("\n====== 📚 User Menu ======");
-            System.out.println("1. Search Book by Title");
-            System.out.println("2. Search Book by Author");
-            System.out.println("3. Search Book by Year");
-            System.out.println("4. Request Book");
+            System.out.println("\n====== 📚 Users.User Menu ======");
+            System.out.println("1. Search Books.Book by Title");
+            System.out.println("2. Search Books.Book by Author");
+            System.out.println("3. Search Books.Book by Year");
+            System.out.println("4. Request Books.Book");
             System.out.println("0. Exit");
             System.out.print("👉 Enter your choice: ");
 
@@ -125,7 +127,7 @@ class Student extends User {
         try {
             File usersFile = new File(USERS_FILE_PATH);
             if (!usersFile.exists()) {
-                System.out.println("❌ User file not found.");
+                System.out.println("❌ Users.User file not found.");
                 return;
             }
 
@@ -141,7 +143,7 @@ class Student extends User {
                     ((ObjectNode) userNode).put("isActive", !isActive);
                     updated = true;
 
-                    System.out.println("✅ Student " + studentUsername + " is now " + (!isActive ? "active" : "inactive") + ".");
+                    System.out.println("✅ Users.Student " + studentUsername + " is now " + (!isActive ? "active" : "inactive") + ".");
                     break;
                 }
             }
@@ -149,7 +151,7 @@ class Student extends User {
             if (updated) {
                 mapper.writerWithDefaultPrettyPrinter().writeValue(usersFile, root);
             } else {
-                System.out.println("❌ Student not found.");
+                System.out.println("❌ Users.Student not found.");
             }
 
         } catch (IOException e) {
@@ -191,7 +193,7 @@ class Student extends User {
 
             mapper.writerWithDefaultPrettyPrinter().writeValue(requestFile, root);
 
-            System.out.println("✅ Book request registered successfully for ISBN: " + isbn);
+            System.out.println("✅ Books.Book request registered successfully for ISBN: " + isbn);
 
         } catch (IOException e) {
             e.printStackTrace();

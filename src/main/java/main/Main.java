@@ -1,3 +1,6 @@
+package main;
+
+import users.Guest;
 
 public class Main {
     public static void main(String[] args) {

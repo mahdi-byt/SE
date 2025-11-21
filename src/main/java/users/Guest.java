@@ -1,3 +1,6 @@
+package users;
+import books.*;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -7,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
-class Guest extends User {
+public class Guest extends User {
     public Guest(String username, String password) {
         super(username, password);
     }
@@ -22,10 +25,10 @@ class Guest extends User {
         boolean exit = false;
 
         while (!exit) {
-            System.out.println("\n====== 👤 Guest Menu ======");
+            System.out.println("\n====== 👤 Users.Guest Menu ======");
             System.out.println("1. Register");
             System.out.println("2. Login");
-            System.out.println("3. Search Book by Title");
+            System.out.println("3. Search Books.Book by Title");
             System.out.println("4. Count Students");
             System.out.println("5. Count Books");
             System.out.println("6. Get Total Borrowed Books");
@@ -91,7 +94,7 @@ class Guest extends User {
                     break;
 
                 case 0:
-                    System.out.println("👋 Exiting Guest Menu...");
+                    System.out.println("👋 Exiting Users.Guest Menu...");
                     exit = true;
                     break;
 
@@ -148,7 +151,7 @@ class Guest extends User {
 
             mapper.writerWithDefaultPrettyPrinter().writeValue(file, root);
 
-            System.out.println("User registered successfully!");
+            System.out.println("Users.User registered successfully!");
             return true;
 
         } catch (IOException e) {

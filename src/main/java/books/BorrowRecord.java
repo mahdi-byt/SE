@@ -1,3 +1,5 @@
+package books;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -91,7 +93,7 @@ public class BorrowRecord {
             int unreturnedCount = 0;
             int delayedCount = 0;
 
-            System.out.println("📖 Borrow History for Student: " + studentUsername);
+            System.out.println("📖 Borrow History for Users.Student: " + studentUsername);
             System.out.println("--------------------------------------------------");
 
             for (JsonNode record : borrowArray) {

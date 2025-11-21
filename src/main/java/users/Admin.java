@@ -1,3 +1,6 @@
+package users;
+import books.*;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -29,11 +32,11 @@ class Admin extends User {
         int choice = -1;
 
         while (choice != 0) {
-            System.out.println("\n====== 🛡 Admin Menu ======");
-            System.out.println("1. Add New Employee");
-            System.out.println("2. View Employee Performance");
+            System.out.println("\n====== 🛡 Users.Admin Menu ======");
+            System.out.println("1. Add New Users.Employee");
+            System.out.println("2. View Users.Employee Performance");
             System.out.println("3. View Borrow Statistics");
-            System.out.println("4. Show Student Borrow History");
+            System.out.println("4. Show Users.Student Borrow History");
             System.out.println("5. View Top 10 Late Students");
             System.out.println("0. Exit");
             System.out.print("👉 Enter your choice: ");
@@ -75,7 +78,7 @@ class Admin extends User {
                     break;
 
                 case 0:
-                    System.out.println("👋 Exiting Admin Menu...");
+                    System.out.println("👋 Exiting Users.Admin Menu...");
                     break;
 
                 default:
@@ -116,7 +119,7 @@ class Admin extends User {
 
             mapper.writerWithDefaultPrettyPrinter().writeValue(file, root);
 
-            System.out.println("Employee created successfully!");
+            System.out.println("Users.Employee created successfully!");
             return true;
 
         } catch (IOException e) {
@@ -164,7 +167,7 @@ class Admin extends User {
                 }
             }
 
-            System.out.println("📊 Performance Report for Employee: " + employeeUsername);
+            System.out.println("📊 Performance Report for Users.Employee: " + employeeUsername);
             System.out.println("------------------------------------");
             System.out.println("📘 Books Registered : " + booksRegistered);
             System.out.println("📗 Books Lent       : " + booksLent);

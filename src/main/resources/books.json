@@ -5,7 +5,7 @@
     "year" : 1951,
     "isbn" : "9780316769488",
     "registeredBy" : "sara457",
-    "isAvailable" : false
+    "isAvailable" : true
   }, {
     "title" : "1984",
     "author" : "George Orwell",

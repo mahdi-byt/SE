@@ -1,3 +1,6 @@
+package users;
+import books.*;
+
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
 import java.io.File;
@@ -25,17 +28,17 @@ class Employee extends User {
         int choice = -1;
 
         while (choice != 0) {
-            System.out.println("\n====== 👨‍💼 Employee Menu ======");
+            System.out.println("\n====== 👨‍💼 Users.Employee Menu ======");
             System.out.println("1. Change Password");
-            System.out.println("2. Add Book");
-            System.out.println("3. Search Book by Title");
-            System.out.println("4. Search Book by Author");
-            System.out.println("5. Search Book by Year");
-            System.out.println("6. Edit Book Information");
+            System.out.println("2. Add Books.Book");
+            System.out.println("3. Search Books.Book by Title");
+            System.out.println("4. Search Books.Book by Author");
+            System.out.println("5. Search Books.Book by Year");
+            System.out.println("6. Edit Books.Book Information");
             System.out.println("7. Check & Approve Borrow Requests");
             System.out.println("8. View Borrow History Report");
-            System.out.println("9. Activate/Deactivate Student");
-            System.out.println("10. Receive Borrowed Book");
+            System.out.println("9. Activate/Deactivate Users.Student");
+            System.out.println("10. Receive Borrowed Books.Book");
             System.out.println("0. Exit");
             System.out.print("👉 Enter your choice: ");
 
@@ -52,7 +55,7 @@ class Employee extends User {
                     break;
 
                 case 2:
-                    System.out.print("Enter Book Title: ");
+                    System.out.print("Enter Books.Book Title: ");
                     String title = scanner.nextLine();
                     System.out.print("Enter Author Name: ");
                     String author = scanner.nextLine();
@@ -137,7 +140,7 @@ class Employee extends User {
                     break;
 
                 case 0:
-                    System.out.println("👋 Exiting Employee Menu...");
+                    System.out.println("👋 Exiting Users.Employee Menu...");
                     break;
 
                 default:
@@ -153,7 +156,7 @@ class Employee extends User {
         try {
             File usersFile = new File(USERS_FILE_PATH);
             if (!usersFile.exists()) {
-                System.out.println("❌ User file not found.");
+                System.out.println("❌ Users.User file not found.");
                 return;
             }
 
@@ -176,7 +179,7 @@ class Employee extends User {
                 mapper.writerWithDefaultPrettyPrinter().writeValue(usersFile, root);
                 System.out.println("✅ Password changed successfully.");
             } else {
-                System.out.println("❌ Employee record not found.");
+                System.out.println("❌ Users.Employee record not found.");
             }
 
         } catch (IOException e) {
@@ -207,7 +210,7 @@ class Employee extends User {
 
             for (JsonNode bookNode : booksArray) {
                 if (bookNode.get("isbn").asText().equals(isbn)) {
-                    System.out.println("❌ Book with ISBN " + isbn + " already exists.");
+                    System.out.println("❌ Books.Book with ISBN " + isbn + " already exists.");
                     return;
                 }
             }
@@ -223,7 +226,7 @@ class Employee extends User {
             booksArray.add(newBook);
 
             mapper.writerWithDefaultPrettyPrinter().writeValue(booksFile, root);
-            System.out.println("✅ Book \"" + title + "\" added successfully by " + this.getUsername());
+            System.out.println("✅ Books.Book \"" + title + "\" added successfully by " + this.getUsername());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -280,7 +283,7 @@ class Employee extends User {
                 String isbn = req.get("isbn").asText();
                 String dueDateStr = req.get("suggestedDeliveryDate").asText();
 
-                System.out.println("\nUser: " + username + ", ISBN: " + isbn + ", Suggested Delivery: " + dueDateStr);
+                System.out.println("\nUsers.User: " + username + ", ISBN: " + isbn + ", Suggested Delivery: " + dueDateStr);
                 System.out.print("Approve this request? (y/n): ");
                 String choice = scanner.nextLine().trim().toLowerCase();
 
@@ -296,7 +299,7 @@ class Employee extends User {
                     }
 
                     if (!bookAvailable) {
-                        System.out.println("❌ Book is not available. Skipping request.");
+                        System.out.println("❌ Books.Book is not available. Skipping request.");
                         remainingRequests.add(req);
                         continue;
                     }
@@ -332,7 +335,7 @@ class Employee extends User {
         try {
             File booksFile = new File(BOOKS_FILE_PATH);
             if (!booksFile.exists()) {
-                System.out.println("❌ Book file not found.");
+                System.out.println("❌ Books.Book file not found.");
                 return;
             }
 
@@ -357,12 +360,12 @@ class Employee extends User {
             }
 
             if (!found) {
-                System.out.println("❌ Book with ISBN " + isbn + " not found.");
+                System.out.println("❌ Books.Book with ISBN " + isbn + " not found.");
                 return;
             }
 
             mapper.writerWithDefaultPrettyPrinter().writeValue(booksFile, root);
-            System.out.println("✅ Book with ISBN " + isbn + " has been updated successfully.");
+            System.out.println("✅ Books.Book with ISBN " + isbn + " has been updated successfully.");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -414,7 +417,7 @@ class Employee extends User {
             }
 
             mapper.writerWithDefaultPrettyPrinter().writeValue(booksFile, booksRoot);
-            System.out.println("✅ Book received and record updated successfully.");
+            System.out.println("✅ Books.Book received and record updated successfully.");
 
         } catch (IOException e) {
             e.printStackTrace();

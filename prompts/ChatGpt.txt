@@ -4,7 +4,7 @@
 
 نوشتن متد برای شمارش تعداد کاربران با نقش student.
 
-نوشتن متد برای کلاس Admin که بتواند یک employee ایجاد کند.
+نوشتن متد برای کلاس users.Admin که بتواند یک employee ایجاد کند.
 
 افزودن ویژگی جدید isActive به کاربران student.
 
@@ -16,11 +16,11 @@
 
 ۲. کلاس کتاب و مدیریت کتاب‌ها
 
-تعریف کلاس Book.
+تعریف کلاس books.Book.
 
 ایجاد JSON نمونه برای کتاب‌ها.
 
-نوشتن متد جستجو در کلاس Book:
+نوشتن متد جستجو در کلاس books.Book:
 
 بر اساس نام کتاب
 
@@ -30,7 +30,7 @@
 
 با پشتیبانی از زیررشته‌ها و نمایش چندین نتیجه
 
-افزودن ویژگی isAvailable به کلاس Book.
+افزودن ویژگی isAvailable به کلاس books.Book.
 
 تغییر متد جستجو تا در دسترس بودن کتاب نیز نمایش داده شود.
 
@@ -48,7 +48,7 @@
 
 ۳. امانت گرفتن کتاب و مدیریت درخواست‌ها
 
-تعریف کلاس BorrowRecord با فیلدهای:
+تعریف کلاس books.BorrowRecord با فیلدهای:
 
 نام کاربری دانشجو
 
@@ -86,26 +86,26 @@ ISBN کتاب
 
 مشاهده ۱۰ دانشجوی با بیشترین تأخیر
 
-۴. منوهای تعاملی (User Menu)
-۴.۱ منوی مهمان (Guest)
+۴. منوهای تعاملی (users.User Menu)
+۴.۱ منوی مهمان (users.Guest)
 
 Register
 
 Login
 
-Search Book by Title
+Search books.Book by Title
 
 Count Students
 
-Count Books
+Count books
 
-Get Total Borrowed Books
+Get Total Borrowed books
 
-Show Last Three Borrowed Books
+Show Last Three Borrowed books
 
-بعد از ورود موفق، خروج از منوی مهمان و ورود به منوی نقش کاربر (Student, Employee, Admin)
+بعد از ورود موفق، خروج از منوی مهمان و ورود به منوی نقش کاربر (users.Student, users.Employee, users.Admin)
 
-۴.۲ منوی دانشجو (Student)
+۴.۲ منوی دانشجو (users.Student)
 
 جستجوی کتاب‌ها (Title/Author/Year)
 
@@ -115,7 +115,7 @@ Show Last Three Borrowed Books
 
 سایر عملکردهای دانشجو که محدود به عملیات خودش است
 
-۴.۳ منوی کارمند (Employee)
+۴.۳ منوی کارمند (users.Employee)
 
 تغییر پسورد
 
@@ -133,7 +133,7 @@ Show Last Three Borrowed Books
 
 دریافت کتاب‌های امانت گرفته شده
 
-۴.۴ منوی مدیر (Admin)
+۴.۴ منوی مدیر (users.Admin)
 
 تعریف کارمند کتابخانه
 
