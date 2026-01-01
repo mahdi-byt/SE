@@ -1,0 +1,12 @@
+{
+  "borrowed": [
+    {
+      "isbn": "9780316769488",
+      "studentUsername": "ali123",
+      "employeeUsername": "emp001",
+      "approveDate": "2026-01-02",
+      "returnEmployeeUsername": null,
+      "returnDate": null
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "requests": [
+    {
+      "isbn": "9780316769488",
+      "username": "ali123",
+      "requestDate": "2026-01-01",
+      "status": "PENDING"
+    }
+  ]
+}

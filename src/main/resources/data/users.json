@@ -1,0 +1,16 @@
+{
+  "users" : [ {
+    "username" : "ali123",
+    "password" : "s23456",
+    "role" : "student",
+    "isActive" : true
+  }, {
+    "username" : "sara456",
+    "password" : "123456",
+    "role" : "admin"
+  }, {
+    "username" : "sara457",
+    "password" : "123456",
+    "role" : "employee"
+  } ]
+}
